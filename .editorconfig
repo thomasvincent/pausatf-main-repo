@@ -1,14 +1,57 @@
-# editorconfig.org
+# macOS system files
+.DS_Store
 
-root = true
+# General
+*.log
+*.sql
+*.sqlite
+*.tar.gz
+*.zip
+*.gz
+*.rar
+*.exe
+*.dll
+*.bin
+*.bak
+*.tmp
+.tmp
+.idea/
+.vscode/
+*.swp
+*~
+Thumbs.db
 
-[*]
-indent_style = space
-indent_size = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
+# Node modules (if using Node.js within the repo)
+node_modules/
 
-[*.php]
-indent_size = 4
+# WordPress specific
+wp-content/uploads/
+wp-config.php
+wp-content/advanced-cache.php
+wp-content/backup-db/
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/wp-cache-config.php
+
+# Terraform specific
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!example*.tfvars
+
+# Ansible specific
+*.retry
+
+# Nomad
+*.plan
+*.out
+
+# PHP vendor folder
+vendor/
+
+# Certificates
+*.cert
+*.key
