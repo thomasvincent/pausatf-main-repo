@@ -1,0 +1,1 @@
+module "digitalocean_droplet" {}

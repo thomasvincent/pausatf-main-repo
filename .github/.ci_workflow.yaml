@@ -1,0 +1,63 @@
+name: CI for WordPress with Terraform, Ansible, and PHP
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+env:
+  PHP_VERSION: '8.2'
+  PYTHON_VERSION: '3.9'
+  TF_VERSION: '1.4.6'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: php-actions/setup-php@v1
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, xml
+        coverage: none
+        tools: phpcs, phpunit
+
+    - name: PHP Lint
+      run: find . -name "*.php" -exec php -l {} \;
+
+    - name: PHP Code Style Check
+      uses: php-actions/phpcs@v1
+      with:
+        standard: PSR12
+
+    - name: PHP Unit Tests
+      uses: php-actions/phpunit@v1
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Run Ansible Lint
+      uses: ansible-community/ansible-lint-action@v6
+      with:
+        targets: "./ansible/"
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Terraform Init, Validate, and Apply
+      run: |
+        cd terraform/
+        terraform init
+        # terraform validate
+        # terraform plan -out=tfplan
+        # terraform apply -auto-approve tfplan

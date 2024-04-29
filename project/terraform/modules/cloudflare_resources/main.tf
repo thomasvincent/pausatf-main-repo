@@ -1,0 +1,1 @@
+module "cloudflare_resources" {}
